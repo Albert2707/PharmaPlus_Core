@@ -10,7 +10,7 @@ namespace Infrastructure.Data.Configurations
 {
     public class CloudinaryConfig
     {
-        private readonly Cloudinary cloudinary = new("cloudinary://115585149439482:4Hs-tSJX_I6WQKE2S5AhDVGvM4U@dxpkhjxla");
+        private readonly Cloudinary cloudinary = new("");
         public UploadResult Upload(string fileName, Stream stream)
         {
             if (string.IsNullOrWhiteSpace(fileName))
