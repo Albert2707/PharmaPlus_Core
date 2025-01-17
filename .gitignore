@@ -1,0 +1,32 @@
+# Carpetas de compilación
+bin/
+obj/
+
+# Archivos de Visual Studio
+.vs/
+*.user
+*.suo
+*.cache
+*.dll
+*.exe
+*.pdb
+
+# Paquetes NuGet
+packages/
+
+# Archivos de ambiente local
+appsettings.Development.json
+appsettings.Production.json
+appsettings.*.json
+!appsettings.json
+
+# Logs
+*.log
+
+# Archivos temporales
+[Tt]emp/
+[Tt]mp/
+
+# Archivos de secretos
+*.pfx
+*.key
