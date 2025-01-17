@@ -19,7 +19,7 @@ namespace Infrastructure.Data.Context
 
         // Constructor por defecto para migraciones
         public AppDbContext() : base(new DbContextOptionsBuilder<AppDbContext>()
-                                        .UseSqlServer("Data Source=127.0.0.1,1433;Initial Catalog=pharmaPlus;User ID=sa;Password=Black3363#;Encrypt=False;")
+                                        .UseSqlServer("")
                                         .Options)
         {
         }
@@ -42,7 +42,7 @@ namespace Infrastructure.Data.Context
             //string con = ConfigurationManager.ConnectionStrings["CN"].ConnectionString;
             optionsBuilder.UseSqlServer(
                 //"Data Source=127.0.0.1;Persist Security Info=True;User ID=sa;Password=Black3363#;Encrypt=True;Trust Server Certificate=True;",
-                "Data Source=127.0.0.1,1433;Initial Catalog=pharmaPlus;User ID=sa;Password=Black3363#;Encrypt=False;",
+                "",
                 b => b.MigrationsAssembly("Infrastructure")); // Asegúrate de usar el nombre del ensamblado donde quieres las migraciones
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

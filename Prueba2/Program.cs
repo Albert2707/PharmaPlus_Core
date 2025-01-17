@@ -17,7 +17,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer("Data Source=127.0.0.1,1433;Initial Catalog=pharmaPlus;User ID=sa;Password=Black3363#;Encrypt=False;"));
+    options.UseSqlServer(""));
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 var app = builder.Build();
