@@ -1,5 +1,7 @@
 ﻿using Application.DTOs;
 using Application.Interfaces;
+using log4net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing.Constraints;
 
@@ -10,8 +12,6 @@ namespace Prueba2.Controllers
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;
-        
-
         public ProductsController(IProductService productService)
         {
             _productService = productService;
@@ -30,6 +30,7 @@ namespace Prueba2.Controllers
 
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> Create(CreateProductDto productDto)
         {
@@ -37,6 +38,7 @@ namespace Prueba2.Controllers
             return Ok(new { message = "Product created successfully" });
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, UpdateProductDto product)
         {
@@ -44,6 +46,7 @@ namespace Prueba2.Controllers
             return Ok(new { message = "Product updated successfully" });
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {

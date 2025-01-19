@@ -1,25 +1,25 @@
-﻿using Application.DTOs;
+﻿using Application.DTOs.Position;
 using Application.Interfaces;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Prueba2.Controllers
+namespace Presentation.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    public class CategoryController : Controller
+    public class PositionController : Controller
     {
-        private readonly ICategoryService _cat;
-        public CategoryController(ICategoryService cat)
+        private readonly IPositionService _po;
+        public PositionController(IPositionService po)
         {
-            _cat=cat;
+            _po=po;
         }
+
         [HttpGet]
-        public async Task<IActionResult> GetAllAsync()
+        public async Task<IActionResult> GetAllPositions()
         {
             try
             {
-                var res = await _cat.GetAllCategoriesAsync();
+                var res = await _po.GetAllPositionAsync();
                 return Ok(res);
             }
             catch (Exception ex)
@@ -28,29 +28,26 @@ namespace Prueba2.Controllers
             }
         }
 
-        [Authorize(Roles = "admin")]
         [HttpPost]
-        public async Task<IActionResult> Create(CategoryDto category)
+        public async Task<IActionResult> CreatePosition(PositionDto position)
         {
             try
             {
-                await _cat.AddCategory(category);
-                return Ok("Categoría creada exitosamente");
+                await _po.CreatePosition(position);
+                return Ok(new { message = "Posicion creada exitosamente" });
             }
             catch (Exception ex)
             {
                 return StatusCode(500, $"Error interno: {ex.Message}");
             }
         }
-
-        [Authorize(Roles = "admin")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> DeletePosition(short id)
         {
             try
             {
-                await _cat.DeleteCategory(id);
-                return Ok(new { message="Categoria eliminada exitosamente"});
+                await _po.DeletePositionAsync(id);
+                return Ok(new { message="Posicion eliminada exitosamente"});
             }
             catch (Exception ex)
             {
