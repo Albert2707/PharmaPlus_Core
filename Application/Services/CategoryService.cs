@@ -1,10 +1,13 @@
-﻿using Application.DTOs;
+﻿using Application.Common;
+using Application.DTOs;
 using Application.Interfaces;
 using Domain.Entities;
+using Infrastructure.Data.Configurations;
 using Infrastructure.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,33 +26,37 @@ namespace Application.Services
         {
             try
             {
-                var newCategory = new Domain.Entities.Category()
+                var newCategory = new Category()
                 {
                     Name = category.Name
                 };
                 _context.Categories.Add(newCategory);
-                await _context.SaveChangesAsync();
-            }
-            catch (Exception)
-            {
 
-                throw;
+                Logs.Info("Agregando nueva categoria...");
+                await _context.SaveChangesAsync();
+                Logs.Info("Categoria agregada");
+
+            }
+            catch (Exception ex)
+            {
+                ExceptionMessage.CatchException(ex);
             }
         }
         public async Task<List<CategoryDto>> GetAllCategoriesAsync()
         {
             try
             {
+                Logs.Info("Buscando categorias...");
                 return await _context.Categories.Select(e => new CategoryDto
                 {
                     CategoryId = e.CategoryId,
                     Name = e.Name
                 }).ToListAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                ExceptionMessage.CatchException(ex);
+                return [];
             }
         }
 
@@ -58,14 +65,19 @@ namespace Application.Services
             try
             {
                 var category = await _context.Categories.FindAsync(id);
-                if (category == null) throw new Exception("Categoria no encontrada");
+                string ErrorMessage = "Categoria no encontrada";
+                if (category == null)
+                {
+                    throw new Exception(ErrorMessage);
+                }
                 _context.Categories.Remove(category);
+                Logs.Info("Eliminando categoria...");
                 await _context.SaveChangesAsync();
+                Logs.Info("Categoria eliminada");
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                ExceptionMessage.CatchException(ex);
             }
         }
     }
