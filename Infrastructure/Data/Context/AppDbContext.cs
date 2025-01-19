@@ -1,28 +1,25 @@
 ﻿using Domain.Entities;
+using Infrastructure.Data.Configurations;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Protocols;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Data.Context
 {
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+        private readonly IConfiguration _config;
+        public AppDbContext(DbContextOptions<AppDbContext> options, IConfiguration config) : base(options)
         {
+            _config = config;
         }
 
         // Constructor por defecto para migraciones
-        public AppDbContext() : base(new DbContextOptionsBuilder<AppDbContext>()
-                                        .UseSqlServer("")
-                                        .Options)
-        {
-        }
+        //public AppDbContext() : base(new DbContextOptionsBuilder<AppDbContext>()
+        //                                .UseSqlServer(_config["ConnectionStrings:DefaultConnection"])
+        //                                .Options)
+        //{
+        //}
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Types> Types { get; set; }
@@ -41,8 +38,7 @@ namespace Infrastructure.Data.Context
         {
             //string con = ConfigurationManager.ConnectionStrings["CN"].ConnectionString;
             optionsBuilder.UseSqlServer(
-                //"Data Source=127.0.0.1;Persist Security Info=True;User ID=sa;Password=Black3363#;Encrypt=True;Trust Server Certificate=True;",
-                "",
+                _config["ConnectionStrings:DefaultConnection"],
                 b => b.MigrationsAssembly("Infrastructure")); // Asegúrate de usar el nombre del ensamblado donde quieres las migraciones
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
